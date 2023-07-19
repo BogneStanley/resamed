@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "name": "Start entry 1",
+            "type": "dart",
+            "request": "launch",
+            "noDebug": true,
+            "program": "lib/main.dart"
+        }
+    ]
+}

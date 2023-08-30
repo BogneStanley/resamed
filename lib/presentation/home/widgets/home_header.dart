@@ -18,9 +18,19 @@ class HomeHeader extends HookConsumerWidget {
       color: AppColors.dark.withOpacity(1),
       height: 400,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const CustomAppBar(),
-          0.ph,
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Text(
+              'Bienvenue',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 26,
+              ),
+            ),
+          ),
+          15.ph,
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(

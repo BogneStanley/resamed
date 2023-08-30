@@ -6,5 +6,9 @@ class AppThemes {
       useMaterial3: true,
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         selectedItemColor: AppColors.primary,
+      ),
+      tabBarTheme: TabBarTheme(
+        indicatorColor: AppColors.primary,
+        labelColor: AppColors.primary,
       ));
 }

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hospital/res/colors.dart';
 import 'package:hospital/router/app_route.gr.dart';
 import 'package:hospital/tools/extensions.dart';
 
@@ -11,7 +12,7 @@ class SettingsScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 247, 248, 255),
+      backgroundColor: AppColors.scaffoldBgColor,
       appBar: AppBar(
         title: const Text("Paramètres"),
       ),

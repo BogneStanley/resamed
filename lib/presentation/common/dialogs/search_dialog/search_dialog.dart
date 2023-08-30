@@ -9,6 +9,7 @@ import 'package:hospital/tools/extensions.dart';
 showSearchDialog({required BuildContext context}) {
   return showDialog(
     context: context,
+    barrierColor: Colors.white,
     builder: (context) {
       return const SearchDialog();
     },

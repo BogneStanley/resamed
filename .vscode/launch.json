@@ -1,7 +1,7 @@
 {
     "configurations": [
         {
-            "name": "Start entry 1",
+            "name": "run in debug mode",
             "type": "dart",
             "request": "launch",
             "noDebug": true,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:hospital/presentation/layout/controller/layout_controller.dart';
 import 'package:hospital/presentation/common/widgets/button/custom_button.dart';
+import 'package:hospital/presentation/register/controller/register_controller.dart';
 import 'package:hospital/router/app_route.gr.dart';
 import 'package:hospital/tools/extensions.dart';
 
@@ -14,6 +15,9 @@ class ChoiceUserTypeScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     LayoutController layoutController =
         ref.read(layoutControllerProvider.notifier);
+    RegisterController registerController =
+        ref.read(registerControllerProvider.notifier);
+    registerController.context = context;
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
@@ -32,14 +36,16 @@ class ChoiceUserTypeScreen extends HookConsumerWidget {
               label: "Simple utilisateur",
               onPressed: () {
                 layoutController.changePageIndex(0);
-                context.router.replaceAll([const LayoutRoute()]);
+                context.router.pop();
               },
             ),
             10.ph,
             CButton(
               label: "Médecin",
               onPressed: () {
-                context.router.push(const DoctorInfoRoute());
+                registerController.becomeMedecin();
+
+                //context.router.push(const DoctorInfoRoute());
               },
             )
           ],

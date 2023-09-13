@@ -9,12 +9,14 @@ class CButton extends HookConsumerWidget {
     required this.onPressed,
     this.bgColor = AppColors.primary,
     this.labelColor = Colors.white,
+    this.isLoading = false,
   });
 
   final String label;
   final void Function()? onPressed;
   final Color bgColor;
   final Color labelColor;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,10 +35,18 @@ class CButton extends HookConsumerWidget {
             ),
             backgroundColor: MaterialStatePropertyAll(bgColor)),
         onPressed: onPressed,
-        child: Text(
-          label,
-          style: TextStyle(fontSize: 16, color: labelColor),
-        ),
+        child: !isLoading
+            ? Text(
+                label,
+                style: TextStyle(fontSize: 16, color: labelColor),
+              )
+            : SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                  color: labelColor,
+                ),
+              ),
       ),
     );
   }

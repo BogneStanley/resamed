@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:hospital/presentation/common/widgets/button/custom_button.dart';
+import 'package:hospital/router/app_route.gr.dart';
 
 import 'controller/consultation_controller.dart';
 import 'controller/consultation_state.dart';
@@ -25,7 +26,9 @@ class ConsultationScreen extends HookConsumerWidget {
             elevation: 0,
             child: CButton(
               label: "Réserver une consultation",
-              onPressed: () {},
+              onPressed: () {
+                context.router.push(ReservationRoute());
+              },
             ),
           ),
           const Padding(

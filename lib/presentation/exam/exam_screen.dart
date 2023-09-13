@@ -28,7 +28,7 @@ class ExamScreen extends HookConsumerWidget {
             elevation: 0,
             child: TabBar(
               controller: tabBarController,
-              tabs: [
+              tabs: const [
                 Tab(
                   text: "Examens",
                 ),
@@ -39,7 +39,7 @@ class ExamScreen extends HookConsumerWidget {
             ),
           ),
           Expanded(
-            child: TabBarView(controller: tabBarController, children: [
+            child: TabBarView(controller: tabBarController, children: const [
               ExamTab(),
               ExamHistoryTab(),
             ]),

@@ -3,22 +3,38 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hospital/main.dart';
+import 'package:hospital/presentation/common/dialogs/choice_consultation_type_dialog/choice_consultation_type_dialog.dart';
+import 'package:hospital/presentation/common/dialogs/choice_medecin_dialog/choice_medecin_dialog.dart';
 import 'package:hospital/presentation/common/widgets/button/c_icon_button.dart';
 import 'package:hospital/presentation/common/widgets/button/custom_button.dart';
+import 'package:hospital/model/medecin.dart';
 import 'package:hospital/tools/extensions.dart';
+import 'package:hospital/tools/form_validator.dart';
 
 import '../../../common/widgets/field/custom_text_form_field.dart';
 import '../../controller/consultation_controller.dart';
 import '../../controller/consultation_state.dart';
 
 @RoutePage()
-class ReservationScreen extends HookConsumerWidget {
+class ReservationScreen extends ConsumerStatefulWidget {
   const ReservationScreen({super.key});
 
   @override
-  Widget build(BuildContext context, ref) {
-    ValueNotifier<int> currentStep = useState(0);
-    var t1 = useTextEditingController();
+  ConsumerState<ReservationScreen> createState() => _ReservationScreenState();
+}
+
+class _ReservationScreenState extends ConsumerState<ReservationScreen> {
+  @override
+  void initState() {
+    super.initState();
+    ref
+        .read(consultationControllerProvider.notifier)
+        .clearAllTextEditingControllers();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     ConsultationController controller =
         ref.read(consultationControllerProvider.notifier);
     controller.context = context;
@@ -31,107 +47,90 @@ class ReservationScreen extends HookConsumerWidget {
           children: [
             Expanded(
                 child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  GestureDetector(
-                    onTap: () async {
-                      var result = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime.now(),
-                        lastDate: DateTime(2035),
-                      );
-                      if (result == null) {
-                        return;
-                      }
-                      var result2 = await showTimePicker(
-                        context: context,
-                        initialTime: TimeOfDay.now(),
-                      );
-                      if (result2 == null) {
-                        return;
-                      }
-                      t1.text = result.toString().split(" ")[0] +
-                          " " +
-                          result2.format(context);
-                    },
-                    child: CTextFormField(
+              child: Form(
+                key: controller.reservationFormKey,
+                child: Column(
+                  children: [
+                    CTextFormField.date(
+                      context,
+                      withTime: true,
+                      controller: controller.consultationDateController,
                       hintText: "Date de consultation",
-                      controller: t1,
-                      enabledInput: false,
-                      surfixIcon: const Icon(
-                        Icons.calendar_month,
-                        color: Colors.black,
-                      ),
+                      validator: (p0) =>
+                          FormValidator(p0, "Date").isRequired().validate(),
                     ),
-                  ),
-                  5.ph,
-                  DropdownSearch<String>(
-                    popupProps: const PopupProps.menu(
-                      showSearchBox: true,
-                      searchDelay: Duration(milliseconds: 300),
+                    5.ph,
+                    CTextFormField(
+                      onTap: () async {
+                        var consultationType =
+                            await showChoiceConsultationTypeDialog(context);
+                        if (consultationType != null) {
+                          controller.consultationTypeController.payload =
+                              consultationType;
+                          controller.consultationTypeController.text =
+                              "${consultationType.label}";
+                        }
+                      },
+                      controller: controller.consultationTypeController,
+                      hintText: "Type de consultation",
+                      readOnly: true,
+                      surfixIcon: Icon(Icons.arrow_drop_down_rounded),
+                      validator: (value) =>
+                          FormValidator(value, "Type de consultation")
+                              .isRequired()
+                              .validate(),
                     ),
-                    items: const [
-                      'Type1',
-                      'Type2',
-                      'Type3',
-                    ],
-                    dropdownDecoratorProps: DropDownDecoratorProps(
-                      dropdownSearchDecoration: InputDecoration(
-                        constraints: BoxConstraints(minHeight: 50),
-                        hintText: "Type de consultation",
-                        filled: true,
-                        fillColor: Colors.blue.withOpacity(0.05),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide.none),
-                      ),
+                    5.ph,
+                    CTextFormField(
+                      onTap: () async {
+                        var medecin = await showChoiceMedecinDialog(context);
+                        if (medecin != null) {
+                          controller.medecinController.payload = medecin;
+                          controller.medecinController.text =
+                              "Dr. ${medecin.firstname} ${medecin.lastname}";
+                        }
+                      },
+                      controller: controller.medecinController,
+                      hintText: "Choisir un medecin",
+                      readOnly: true,
+                      surfixIcon: Icon(Icons.arrow_drop_down_rounded),
+                      validator: (value) => FormValidator(value, "Medecin")
+                          .isRequired()
+                          .validate(),
                     ),
-                    onChanged: print,
-                  ),
-                  5.ph,
-                  DropdownSearch<String>(
-                    popupProps: const PopupProps.menu(
-                      showSearchBox: true,
-                      searchDelay: Duration(milliseconds: 300),
+                    5.ph,
+                    CTextFormField(
+                      hintText: "Motif de consultation",
+                      controller: controller.consultationMotifController,
                     ),
-                    items: const [
-                      'Medecin 1',
-                      'Medecin 2',
-                      'Medecin 3',
-                    ],
-                    dropdownDecoratorProps: DropDownDecoratorProps(
-                      dropdownSearchDecoration: InputDecoration(
-                        constraints: BoxConstraints(minHeight: 50),
-                        hintText: "Choisir un medecin",
-                        filled: true,
-                        fillColor: Colors.blue.withOpacity(0.05),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide.none),
-                      ),
-                    ),
-                    onChanged: print,
-                  ),
-                  5.ph,
-                  CTextFormField(
-                    hintText: "Motif de consultation",
-                  ),
-                  5.ph,
-                  CTextFormField(
-                    hintText: "Lieu de residence",
-                  ),
-                  5.ph,
-                  CTextFormField(
-                    hintText: "Numéro de téléphone",
-                  )
-                ],
+                    5.ph,
+                    CTextFormField(
+                        hintText: "Lieu de résidence",
+                        controller: controller.consultationLocationController,
+                        validator: (p0) =>
+                            FormValidator(p0, "Lieu de résidence")
+                                .isRequired()
+                                .validate()),
+                    5.ph,
+                    CTextFormField(
+                      hintText: "Numéro de téléphone",
+                      controller: controller.consultationPhoneController,
+                      validator: (p0) =>
+                          FormValidator(p0, "Numéro de téléphone")
+                              .isRequired()
+                              .validate(),
+                    )
+                  ],
+                ),
               ),
             )),
             10.ph,
             CButton(
               label: "Demandez un rendez vous",
-              onPressed: () {},
+              isLoading: state.reservationInProgress,
+              onPressed: () {
+                controller.bookConsultation();
+              },
             ),
           ],
         ),

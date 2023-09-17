@@ -75,4 +75,8 @@ class SettingsController extends StateNotifier<SettingsState> {
       isMedecin: value,
     );
   }
+
+  initializeState() {
+    state = SettingsState.initialize();
+  }
 }

@@ -16,6 +16,7 @@ class RegisterScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var controller = ref.read(registerControllerProvider.notifier);
+    var state = ref.watch(registerControllerProvider);
     controller.context = context;
     return GestureDetector(
       onTap: () {
@@ -150,6 +151,7 @@ class RegisterScreen extends HookConsumerWidget {
                   40.ph,
                   CButton(
                     label: "Créer un compte",
+                    isLoading: state.registrationInProgress,
                     onPressed: () {
                       controller.register();
                       //context.router.push(const ChoiceUserTypeRoute());

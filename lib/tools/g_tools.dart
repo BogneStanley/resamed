@@ -30,15 +30,14 @@ class GTools {
       message = "Email ou mot de passe incorrect";
     }
 
-    e.response["data"].forEach((key, value) {
+    e.response["data"]?.forEach((key, value) {
       message +=
           "$key : ${GTools.errorCodeToMessage(value['code'].toString())}\n";
     });
     if (message.isNotEmpty) {
       ErrorDisplay.fromCode(context, e.response["code"], message);
     } else {
-      ErrorDisplay.fromCode(
-          context, e.response["code"], "Une erreur est survenue");
+      ErrorDisplay.fromCode(context, 400, e.toString());
     }
   }
 }

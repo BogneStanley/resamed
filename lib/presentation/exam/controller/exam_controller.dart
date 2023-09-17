@@ -13,4 +13,7 @@ class ExamController extends StateNotifier<ExamState> {
   );
   late PageController pageController;
   late BuildContext context;
+  initializeState() {
+    state = ExamState.initialize();
+  }
 }

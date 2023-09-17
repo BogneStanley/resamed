@@ -80,11 +80,16 @@ class HomePostCard extends HookConsumerWidget {
                 RoundedIconButton(
                   iconData: Icons.favorite,
                   elevation: 0,
-                  size: 35,
-                  bgColor: Colors.transparent,
-                  iconColor: AppColors.dark,
+                  size: 25,
+                  bgColor: Color.fromARGB(0, 0, 0, 0),
+                  iconColor: Color.fromARGB(255, 255, 53, 53),
                   iconSize: 24,
                 ),
+                Text(
+                  "21",
+                  textScaleFactor: 0.9,
+                ),
+                8.pw,
                 RoundedIconButton(
                   iconData: Icons.comment_rounded,
                   elevation: 0,
@@ -93,6 +98,11 @@ class HomePostCard extends HookConsumerWidget {
                   iconColor: AppColors.dark,
                   iconSize: 24,
                 ),
+                Text(
+                  "09",
+                  textScaleFactor: 0.9,
+                ),
+                8.pw,
                 RoundedIconButton(
                   iconData: Icons.share,
                   elevation: 0,
@@ -101,6 +111,11 @@ class HomePostCard extends HookConsumerWidget {
                   iconColor: AppColors.dark,
                   iconSize: 24,
                 ),
+                Text(
+                  "02",
+                  textScaleFactor: 0.9,
+                ),
+                8.pw,
                 GTools.expand(),
                 RoundedIconButton(
                   iconData: Icons.bookmark_border_rounded,
@@ -111,57 +126,6 @@ class HomePostCard extends HookConsumerWidget {
                   iconSize: 24,
                 ),
               ],
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  const Row(
-                    children: [
-                      Icon(
-                        Icons.favorite,
-                        color: Colors.red,
-                        size: 16,
-                      ),
-                      Text(
-                        "21 likes",
-                        textScaleFactor: 0.8,
-                      )
-                    ],
-                  ),
-                  10.pw,
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.comment_rounded,
-                        color: AppColors.dark,
-                        size: 16,
-                      ),
-                      3.pw,
-                      const Text(
-                        "08 commentaires",
-                        textScaleFactor: 0.8,
-                      )
-                    ],
-                  ),
-                  10.pw,
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.share,
-                        color: AppColors.dark,
-                        size: 16,
-                      ),
-                      3.pw,
-                      const Text(
-                        "03 partages",
-                        textScaleFactor: 0.8,
-                      )
-                    ],
-                  ),
-                  10.pw,
-                ],
-              ),
             ),
           ],
         ),

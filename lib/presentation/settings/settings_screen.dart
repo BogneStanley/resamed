@@ -5,6 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:hospital/data/pb_client.dart';
 import 'package:hospital/main.dart';
+import 'package:hospital/presentation/consultation/controller/consultation_controller.dart';
+import 'package:hospital/presentation/exam/controller/exam_controller.dart';
+import 'package:hospital/presentation/layout/controller/layout_controller.dart';
+import 'package:hospital/presentation/login/controller/login_controller.dart';
+import 'package:hospital/presentation/register/controller/register_controller.dart';
 import 'package:hospital/presentation/settings/controller/settings_state.dart';
 import 'package:hospital/presentation/settings/controller/settings_controller.dart';
 import 'package:hospital/res/colors.dart';
@@ -73,7 +78,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             ListTile(
               onTap: () {
                 //context.router.replaceAll([const LoginRoute()]);
+
                 pb.authStore.clear();
+                ref.invalidate(consultationControllerProvider);
+                ref.invalidate(settingsControllerProvider);
+                ref.invalidate(examControllerProvider);
+                ref.invalidate(layoutControllerProvider);
+                ref.invalidate(loginControllerProvider);
+                ref.invalidate(registerControllerProvider);
                 //logger.i(pb.authStore.token);
               },
               title: const Text(

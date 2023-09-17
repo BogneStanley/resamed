@@ -17,6 +17,10 @@ class LayoutController extends StateNotifier<LayoutState> {
   late PageController pageController;
   late BuildContext context;
 
+  initializeState() {
+    state = LayoutState.initialize();
+  }
+
   changePageIndex(int newIndex) {
     state = state.copyWith(nPageIndex: newIndex);
   }

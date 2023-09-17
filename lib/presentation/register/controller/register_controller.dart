@@ -54,6 +54,9 @@ class RegisterController extends StateNotifier<RegisterState> {
     if (formKey.currentState!.validate()) {
       logger.i("Register");
       try {
+        state = state.copyWith(
+          registrationInProgress: true,
+        );
         var record = await pb.collection("users").create(body: {
           "firstname": firstnameController.text,
           "lastname": lastnameController.text,
@@ -76,6 +79,12 @@ class RegisterController extends StateNotifier<RegisterState> {
         logger.d(res.toJson());
       } on ClientException catch (e, s) {
         GTools.clientExceptionErrorDisplay(e, context);
+      } catch (e) {
+        ErrorDisplay.fromCode(context, 400, e.toString());
+      } finally {
+        state = state.copyWith(
+          registrationInProgress: false,
+        );
       }
     }
   }
@@ -155,5 +164,10 @@ class RegisterController extends StateNotifier<RegisterState> {
     studyCertificateController.text = "";
     privatePracticeLicenseController.text = "";
     affiliateHospitalController.text = "";
+  }
+
+  initializeState() {
+    clearTextEditingControllers();
+    state = RegisterState.initialize();
   }
 }
